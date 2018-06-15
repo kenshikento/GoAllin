@@ -1,60 +1,60 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+GoAllin is a small basic Social network
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+The application is using laravel as a Backend and for the front end just using standard bootstrap class for styling. For the database i was using Phpmyadmin (Xampp)
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+The Specification:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+o A home page welcoming all visitors to the site – use some placeholder text.
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
+o A sign up page, where a visitor can register (with a name, email and password). This should only be visible to Guests.
 
-## Learning Laravel
+o A log in page, where a registered user can log in to the site. This should only be visible to Guests.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+o A form for Users to send a message to another User.
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+* It should not allow messages with more than one word
 
-## Laravel Sponsors
+* It should not allow messages that have already been sent.
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
+- Currently validation stops users sending same messages that they have sent
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
+* It should not allow them to send themselves a message.
 
-## Contributing
+o A page for Users to view the messages they have received.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+-Dash Board page shows all messages they have received 
 
-## Security Vulnerabilities
+o Bonus: A way to create or delete a user on the command line by passing in their user ID or email address.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Using artisan tinker you can 
 
-## License
+-Create
+php artisan tinker  - 
+$user = new User;
+$user -> email 	   = 'admin';
+$user -> name  	   = 'admin';
+$user -> password  = Hash::make('password');
+$user -> save();
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+-Delete 
+$user = app\User::find(1);
+$user->delete();
+
+o Bonus: Come up with a name for this social network.
+GoAllin
+
+The requirements that are not done - 
+
+* Bonus: A way for a User to reply to a message that has been sent to them.
+-Currently no reply function
+o Bonus: A page where any visitor can see an archive of all messages that have been sent – it should be paginated so that no more than 20 appear at once.
+-Message Board page however there is no pagination. 
+
+
+o Bonus: A way for a User to see all of their sent and received messages with a specific other User (i.e. Their “conversation”).
+
+Improvements and errors- 
+Changing method of getting the data to eloquent method as its a lot cleaner to use.
+In order to display the messages both users have to message on messageboard.
+Few bugs around delete 
