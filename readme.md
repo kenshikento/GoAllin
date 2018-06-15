@@ -1,6 +1,6 @@
 GoAllin is a small basic Social network
 
-The application is using laravel as a Backend and for the front end just using standard bootstrap class for styling. For the database i was using Phpmyadmin (Xampp)
+The application is using laravel as a Backend and for the front end just using standard bootstrap class for styling. For the database i was using Phpmyadmin (Xampp) also design of all tables Resources\assets\design 
 
 
 The Specification:
