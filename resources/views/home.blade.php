@@ -16,25 +16,23 @@
 
                     You are Log inz
                    
-                    @forelse($messages as $message)
+                    @if($messages)
+                    @foreach($messages  as $message)
+                    @foreach($message  as $info)
                     <div class="jumbotron">
                         <div class="media">
-                            <div class="media-body">
-                                <h2 class="media-heading"> {{ $message->name }} </h2>  
-                                <p  class="text-left"> Message : {{ $message->content }} </p> 
-                                <ul class="list-inline list-unstyled">
-                                    <li><span><i class="glyphicon-calendar"></i> {{ $message->created_at}}</span></li>
-                                  
-                                </ul> 
+                            <div class="media-body">             
+                            <h2 class="media-heading"> {{$info['sender']}}</h2>  
+                            <p  class="text-left"> Message : {{ $info['content'] }} </p> 
+                            <ul class="list-inline list-unstyled">
+                            <li><span><i class="glyphicon-calendar"></i> {{ $info['sent'] }}</span></li> 
+                            </ul>
                             </div>
                         </div>
-                    </div>
-
-                    
-                    @empty 
-                    <p>No messages sadly </p>
-                    @endforelse
-                     
+                    </div>                  
+                    @endforeach
+                    @endforeach
+                    @endif                 
                 </div>
             </div>
         </div>
