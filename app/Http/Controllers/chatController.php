@@ -6,42 +6,58 @@ use Illuminate\Http\Request;
 use App\messages;
 use App\chats;
 use App\friends;
+use App\User;
 use Auth;
 use DB;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class chatController extends Controller 
 {
-	public function getMessages(){
-
-	//	$messages = messages::paginate(15);
-		//dd($messages);
-
-		$message = DB::table('users')
-        ->select('users.id AS user_ID','users.name','messages.content','messages.created_at','friends.friendID','messages.chat_ID','messages.id')
-        ->join('messages','messages.user_ID','=','users.id')
-        ->join('chats','chats.id','=','messages.chat_ID')
-        ->join('friends','friends.id','=','chats.friend_ID')
-        ->get();
+	public function getMessages(Request $request){
 
 
-         //dd($messages->first()->friendID);
-         foreach ($message as $items)
-         {
-         	//echo ($items->friendID);
-         	$friendname = DB::table('users')
-	        ->select('users.name AS friendname')
-	        ->join('messages','messages.user_ID','=','users.id')
-	        ->join('chats','chats.id','=','messages.chat_ID')
-	        ->join('friends','friends.id','=','chats.friend_ID')
-	        ->where(['users.id'=>$items->friendID])->first();
-	        //echo $friendname;
-	       	  	$row= array_merge (['friendinfo'=>$friendname],['userinfo'=>$items]);
-        		$messages[] = $row;
-	        
-         }
-         	//dd($messages);
-         //echo var_dump($friendname);
-        return view('messageboard', compact('messages')); 
+        $chat = messages::with('chat.friends.user')->get();     
+
+        foreach ($chat as $chats)  
+        {       
+              // Data  
+              $info = $chats->chat->friends->friendID;  
+              // Friends name             
+              $friendname = $this->getName($info);
+              
+              // User that is sending 
+              $userID=$chats->user_ID;
+              $username = $this->getName($userID);
+
+              $message[] = [
+                      'content'=>$chats->content,
+                      'created_at'=>$chats->created_at,
+                      'reciever'=>$friendname,
+                      'sender'=>$username
+                      ];
+
+        }
+
+        // Pagination code
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $itemCollection = collect($message);
+        $perPage = 5;
+
+        $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
+
+        $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
+        $paginatedItems->setPath($request->url());
+        return view('messageboard', ['message' => $paginatedItems]);
 	}
+
+
+        // function that gets name 
+        public function getName($id)
+        {       
+
+              $friendsname = User::where('id','=',$id)->get();  
+              return $friendsname[0]->name;   
+
+        }
 }
