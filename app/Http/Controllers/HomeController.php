@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\User;
 use App\messages;
 use App\chats;
 use App\friends;
@@ -30,38 +31,44 @@ class HomeController extends Controller
      */
     public function index()
     {   
-        $userid = Auth::user()->id;
+       
  
-      /*  
-        $messages = messages::all()->where('user_ID','!=',$userid)->sortByDesc('created_at');
-        $messages = messages::all()->sortByDesc('created_at');
-        return view('home', compact('messages'));
-*/
+
 
 /*     Query style*/
-       $messages = DB::table('users')
-        ->select('users.id AS user_ID','users.name','messages.content','messages.created_at','friends.friendID','messages.chat_ID','messages.id')
-        ->join('messages','messages.user_ID','=','users.id')
-        ->join('chats','chats.id','=','messages.chat_ID')
-        ->join('friends','friends.id','=','chats.friend_ID')
-        ->where(['friends.friendID'=>$userid,'friends.status'=>1])->get();
 
+    
+        $userid = Auth::user()->id;
+        $username = Auth::user()->name; 
         
+        $friends = messages::with('chat.friends.user')->get();
 
-        // Eloquent style
-   /*     $messages = friends::whereHas('friendID',function($query){
-            $query->where('friendID','=',$userID);
-        })->get();
-        
-        $messages = friends::select('friendID',function($query){
-        $query->where('friendID','=',$userID);
-        })->get();
-*/
+        foreach($friends as $friend){
+        if($friend->chat->friends->friendID == $userid){
 
-       return view('home', compact('messages'));
-//dd(DB::getQueryLog());
-   // dd($messages);
-       // dd($messages);
+        $friendID = $friend->user_ID;
+        $friendsname = User::where('id','=',$friendID)->get();  
+        $name = $friendsname[0]->name;
+
+        $nameto =$friend->chat->friends->User->name;
+        $info[] = [     'sender'=> $name,
+                        'sent'=> $friend->created_at,
+                        'content'=>$friend->content,
+                        'user'=>$username,
+                        ]; 
+        }       
+        } 
+
+        $perPage = 15;
+        $page = null;
+        $options =[];
+        $messages = ([$info]);
+
+        return view('home', compact('messages')); 
+
+
+
+
     }
 
     
