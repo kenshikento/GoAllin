@@ -5,40 +5,23 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Messageboard</div>
-
                 <div class="card-body">
-                    @if(isset($messages))
-                    @forelse($messages as $message)
-                  
-
-              
-                    <div class="jumbotron">
-                        <div class="media">
-                            <div class="media-body">
-                              @if(isset($message['friendinfo']))
-                                <h2 class="media-heading">              {{ $message['friendinfo']->friendname}} </h2>  
-                                    <p  class="text-left">     Message :{{ $message['userinfo']->content }} </p>
-                                    <p class="text-right">      Sender :{{  $message['userinfo']->name}}</p>  
-
-                                    <ul class="list-inline list-unstyled"><li><span><i class="glyphicon-calendar"></i> {{ $message['userinfo']->created_at }}</span></li>
-                                    </ul> 
-                            </div>
-                        </div>
-                    </div>
-                            @else 
-                            <p> takes two to tango </p>
-                            @endif
-                    
-                    @empty 
-                    <p>No messages sadly </p>
-
-                    @endforelse    
-                    @endif
-                    <!--<p>No messages sadly </p>     -->        
-                
-                    
-                
-
+                @if($message or 'not-exist')
+                             
+                @foreach($message as $info)
+                <div class="jumbotron">
+                    <div class="media">                           
+                        <div class="media-body">                                  
+                            <h2 class="media-heading">              {{ $info['reciever']}} </h2>  
+                            <p  class="text-left">     Message :{{ $info['content'] }} </p>
+                            <p class="text-right">      Sender :{{ $info['sender']}}</p>  
+                            <ul class="list-inline list-unstyled"><li><span><i class="glyphicon-calendar"></i> {{ $info['created_at'] }}</span></li></ul> 
+                        </div>                                                                              
+                    </div>                      
+                </div>
+                @endforeach
+                @endif
+                {{ $message->links() }}
                 </div>
             </div>
         </div>
