@@ -10,10 +10,9 @@ use Auth;
 use DB;
 use App\Rules\validMessageexceeds;
 use App\Http\Requests\messageRequest;
+
 class ContentController extends Controller
 {
-    //
-
     public function __construct()
     {
         $this->middleware('auth');
@@ -24,23 +23,16 @@ class ContentController extends Controller
     	return view('content');
     }
 
-
-    public function store(Request $request)
-    {
- 
-    }	
-
     public function postInfo(messageRequest $request)
     {   
         $content = $request->message;
-        // User's ID that is currently login 
         $userid = Auth::user()->id;
-        // Friends ID
-        $users = DB::table('users')->select('name', 'email as user_email','id')
-        ->where('email',$request->email)
-        ->first();
 
-        // Initial Friend model insert
+        $users = DB::table('users')->select('name', 'email as user_email','id')
+        	->where('email',$request->email)
+        	->first()
+        ;
+
         $frienduser = $users->id; // 1-2 
         $friend = new friends;
         $friend ->status   = 1;   
@@ -76,13 +68,4 @@ class ContentController extends Controller
         return redirect()->back();
 
     }   
-
-    public function viewContent()
-    {
-       // dd('view post page');
-    }
-
-    public function deleteUser(){
-        //
-    }
 }
