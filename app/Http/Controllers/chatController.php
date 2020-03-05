@@ -9,14 +9,12 @@ use App\friends;
 use App\User;
 use Auth;
 use DB;
-
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class chatController extends Controller 
 {
-	public function getMessages(Request $request){
-
-
+	public function getMessages(Request $request)
+	{
         $chat = messages::with('chat.friends.user')->get();     
 
         foreach ($chat as $chats)  
@@ -52,12 +50,14 @@ class chatController extends Controller
 	}
 
 
-        // function that gets name 
-        public function getName($id)
-        {       
-
-              $friendsname = User::where('id','=',$id)->get();  
-              return $friendsname[0]->name;   
-
-        }
+    /**
+     * Gets the name
+     *
+     * @return string
+     */
+    public function getName(int $id) : string
+    {       
+	    $friendsname = User::where('id','=',$id)->get();  
+	    return $friendsname[0]->name;   
+    }
 }
