@@ -17,7 +17,7 @@ o A form for Users to send a message to another User.
 
 * It should not allow messages that have already been sent.
 
-- Currently validation stops users sending same messages that they have sent
+- Currently validation stops users sending same messages that they have sent [should change form request]
 
 * It should not allow them to send themselves a message.
 
@@ -27,7 +27,7 @@ o A page for Users to view the messages they have received.
 
 o Bonus: A way to create or delete a user on the command line by passing in their user ID or email address.
 
-Using artisan tinker you can 
+Using artisan tinker you can (should use Seeder)
 
 -Create
 php artisan tinker  - 
