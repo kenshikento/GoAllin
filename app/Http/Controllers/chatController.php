@@ -20,7 +20,7 @@ class ChatController extends Controller
             // Data  
             $info = $chats->chat->friends->friendID;  
             // Friends name             
-            $friendname = $this->getName($info);
+            $friendname = User::where('id', $info)->first();
               
             // User that is sending 
             $userID = $chats->user_ID;
